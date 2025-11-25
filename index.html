@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cookie Convention — Underground HQ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* ============================
+    GLOBAL GRUNGE THEME
+============================ */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;700&display=swap');
+
+body {
+    margin: 0;
+    background: #0c0c0c;
+    color: #d6d6d6;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* No clean lines — everything distressed */
+* {
+    box-sizing: border-box;
+    border-radius: 0; /* Override default rounding */
+}
+
+/* Glitch background texture */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    /* Static noise texture - Using a common placeholder pattern for robustness */
+    background: url('https://placehold.co/100x100/000/F54242?text=NOISE') repeat; 
+    background-size: 100px;
+    opacity: 0.07;
+    z-index: -3;
+    pointer-events: none;
+}
+
+/* Torn edge frame */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    /* Ripped border texture - Using a common placeholder pattern for robustness */
+    background: 
+        linear-gradient(to right, #0c0c0c 5px, transparent 5px),
+        linear-gradient(to left, #0c0c0c 5px, transparent 5px),
+        linear-gradient(to bottom, #0c0c0c 5px, transparent 5px),
+        linear-gradient(to top, #0c0c0c 5px, transparent 5px);
+    background-size: 100% 100%;
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+    z-index: -2;
+}
+
+/* Title Font (terminal grunge) */
+.logo {
+    font-family: "VT323";
+    font-size: 38px;
+    color: #f54242;
+    text-shadow: 0 0 6px red, 0 0 15px #4b0000;
+    letter-spacing: 1px;
+}
+
+/* Header */
+header {
+    padding: 20px;
+    background: #111;
+    border-bottom: 2px dashed #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px; /* Increased gap to accommodate new button */
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    gap: 22px;
+}
+nav a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: VT323;
+    letter-spacing: 1px;
+}
+nav a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px red;
+}
+
+/* Help Button Style */
+#help-button {
+    font-family: VT323;
+    font-size: 20px;
+    color: #f54242; /* Red text */
+    background: #000000;
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 2px solid #f54242;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    
+    /* Initial glow for prominence */
+    box-shadow: 0 0 10px rgba(245, 66, 66, 0.5);
+}
+
+/* Glowing on Hover/Active Effect */
+#help-button:hover, #help-button:active {
+    color: #00fff9; /* Blue/Cyan text on hover */
+    background: #0a2021;
+    border-color: #00fff9;
+    box-shadow: 
+        0 0 5px #00fff9, 
+        0 0 20px #00fff9; /* Intense cyan glow */
+    transform: scale(1.05);
+}
+
+/* Cart Display */
+.cart-display {
+    font-family: VT323;
+    font-size: 24px;
+    color: #00fff9;
+    text-shadow: 0 0 5px #00fff955;
+    background: #0a2021;
+    padding: 5px 10px;
+    border: 1px solid #00fff9;
+    outline: 2px solid #000;
+    min-width: 150px;
+    text-align: center;
+}
+#user-id-display {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    color: #888;
+    margin-top: 5px;
+    word-break: break-all;
+}
+
+/* Section */
+section {
+    margin: 50px auto;
+    width: min(900px, 92%);
+    padding: 25px;
+    background: #111;
+    border: 2px solid #222;
+    outline: 3px solid #000;
+    position: relative;
+}
+
+/* Torn top overlay */
+section::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 25px;
+    /* Using placeholder for torn edge */
+    background: repeating-linear-gradient(-45deg, #111, #111 5px, #0c0c0c 5px, #0c0c0c 10px);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Section titles */
+section h2 {
+    font-family: VT323;
+    color: #f54242;
+    font-size: 32px;
+    text-shadow: 0 0 6px red;
+    margin-bottom: 18px;
+}
+
+/* Product entries */
+.product {
+    padding: 15px;
+    border: 1px solid #333;
+    margin-bottom: 12px;
+    background: #0e0e0e;
+    position: relative;
+    transition: 0.15s;
+    display: flex; /* Added for layout control */
+    flex-direction: column; /* Added for layout control */
+}
+
+/* Slight glitch hover */
+.product:hover {
+    transform: translateX(4px);
+    border-color: #f54242;
+    box-shadow: -3px 0px 10px rgba(255,0,0,0.15);
+}
+
+/* Torn inner edges */
+.product::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Using placeholder for torn inner edge */
+    background: radial-gradient(circle, transparent 20%, #000 100%);
+    mix-blend-mode: overlay;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* Product title */
+.product-title {
+    font-family: VT323;
+    font-size: 22px;
+    color: #fff;
+}
+
+/* Product metadata */
+.meta {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Container for deal tag and button */
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between deal and button */
+    margin-top: 10px;
+    flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+/* Buy button */
+.buy-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #f54242;
+    color: black;
+    font-family: VT323;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid #000;
+    transition: background 0.1s;
+}
+.buy-btn:hover {
+    background: #ff7373;
+    box-shadow: 0 0 12px red;
+}
+
+/* Deal Tag Style (3 for $20 / 3 for $10) */
+.deal-tag {
+    font-family: VT323;
+    font-size: 18px;
+    color: #00fff9; /* Cyan text */
+    background: #041a1b;
+    padding: 4px 8px;
+    border: 1px dashed #00fff9;
+    text-shadow: 0 0 3px #00fff9;
+    animation: pulseBorder 1.5s infinite alternate; 
+    /* The pulseBorder animation is defined later, but it will affect the box-shadow */
+}
+
+/* New style for the prominent Warranty Notice */
+.warranty-notice {
+    font-family: VT323;
+    font-size: 16px;
+    color: #ffd700; /* Gold/Yellow for warning */
+    background: #281a00;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    letter-spacing: 0.5px;
+    animation: flashBorder 2s infinite step-end;
+}
+
+/* VOUCHER SECTION STYLES */
+.voucher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.voucher-box {
+    background: #1a1a1a;
+    padding: 15px;
+    border: 1px solid #444;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.voucher-box:hover {
+    transform: translateY(-5px);
+    border-color: #00fff9;
+}
+
+.voucher-image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+    border: 3px solid transparent; /* default no border */
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+/* Specific glow style for the first voucher box (RED) */
+.voucher-box.red-glow-active {
+    border-color: #f54242; /* Highlight border */
+    box-shadow: 0 0 15px #f54242, 0 0 30px rgba(255, 0, 0, 0.5);
+    animation: voucherBoxRedGlow 2s infinite alternate;
+}
+
+/* Specific glow style for the second voucher box (GREEN) */
+.voucher-box.green-glow-active {
+    border-color: #00ff00; /* Green border */
+    box-shadow: 0 0 15px #00ff00, 0 0 30px rgba(0, 255, 0, 0.5);
+    animation: voucherBoxGreenGlow 2s infinite alternate;
+}
+
+/* Specific glow style for the third voucher box (GOLD) */
+.voucher-box.gold-glow-active {
+    border-color: #ffd700; /* Gold border */
+    box-shadow: 0 0 15px #ffd700, 0 0 30px rgba(255, 215, 0, 0.5);
+    animation: voucherBoxGoldGlow 2s infinite alternate;
+}
+
+
+/* Ensure the anchor link doesn't interfere with the image style */
+.voucher-image-container a {
+    display: block;
+}
+
+.voucher-title {
+    font-family: VT323;
+    color: #ffd700;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.voucher-code {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Glitch animation for heading */
+.glitch {
+    position: relative;
+}
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+}
+.glitch::before {
+    animation: glitch1 2s infinite;
+    color: #ff2a2a;
+}
+.glitch::after {
+    animation: glitch2 3s infinite;
+    color: #00fff9;
+}
+
+@keyframes glitch1 {
+    0% {clip-path: inset(0 0 80% 0); transform: translate(-2px, -2px);}
+    50% {clip-path: inset(20% 0 40% 0); transform: translate(2px,2px);}
+    100% {clip-path: inset(40% 0 0 0); transform: translate(-2px,1px);}
+}
+@keyframes glitch2 {
+    0% {clip-path: inset(50% 0 0 0); transform: translate(2px,0);}
+    50% {clip-path: inset(0 0 60% 0); transform: translate(-2px,-1px);}
+    100% {clip-path: inset(30% 0 10% 0); transform: translate(1px,2px);}
+}
+
+/* CSS for Verification Box and Deal Tag animation (reused) */
+@keyframes pulseBorder {
+    from {
+        box-shadow: 0 0 5px rgba(245, 66, 66, 0.4);
+        opacity: 0.8;
+    }
+    to {
+        box-shadow: 0 0 15px rgba(245, 66, 66, 0.8);
+        opacity: 1;
+    }
+}
+
+/* New specific animation for the warranty border flash */
+@keyframes flashBorder {
+    0%, 100% { border-color: #ffd700; }
+    50% { border-color: #ff0000; }
+}
+
+/* Animation for the entire voucher box glow (RED) */
+@keyframes voucherBoxRedGlow {
+    from { box-shadow: 0 0 10px #f54242, 0 0 20px rgba(255, 0, 0, 0.3); }
+    to { box-shadow: 0 0 15px #ff7373, 0 0 35px rgba(255, 0, 0, 0.8); }
+}
+
+/* Animation for the entire voucher box glow (GREEN) */
+@keyframes voucherBoxGreenGlow {
+    from { box-shadow: 0 0 10px #00ff00, 0 0 20px rgba(0, 255, 0, 0.3); }
+    to { box-shadow: 0 0 15px #39ff14, 0 0 35px rgba(0, 255, 0, 0.8); }
+}
+
+/* Animation for the entire voucher box glow (GOLD) */
+@keyframes voucherBoxGoldGlow {
+    from { box-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255, 215, 0, 0.3); }
+    to { box-shadow: 0 0 15px #ffeb77, 0 0 35px rgba(255, 215, 0, 0.8); }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <div class="logo glitch" data-text="COOKIE CONVENTION HQ">COOKIE CONVENTION HQ</div>
+
+    <nav>
+        <a href="#fr">FR HQ</a>
+        <a href="#n26">N26</a>
+        <a href="#au">AU</a>
+        <a href="#usa">USA HQ</a>
+        <a href="#low">USA LOW</a>
+        <a href="#amex">AMEX</a>
+        <a href="#discover">DISCOVER</a>
+        <a href="#voucher">VOUCHER</a> 
+    </nav>
+    
+    <!-- NEW HELP BUTTON -->
+    <a id="help-button" href="https://t.me/CookieConventionCCs" target="_blank" title="Contact Support on Telegram">
+        NEED HELP?
+    </a>
+
+    <div class="cart-display">
+        🛒 Cart: <span id="cart-count">0</span>
+        <div id="user-id-display"></div>
+    </div>
+</header>
+
+<!-- VERIFICATION / TRUST BANNER -->
+<section id="verification" style="
+    margin: 20px auto 30px; 
+    width: min(900px, 92%);
+    padding: 15px 25px;
+    background: #1a0808; 
+    border: 2px solid #f54242; 
+    outline: 3px solid #000;
+    text-align: center;
+    font-family: VT323;
+    font-size: 24px;
+    color: #00fff9;
+    text-shadow: 0 0 5px #00fff9;
+    position: relative;
+    overflow: hidden;
+">
+    <div style="z-index: 10; position: relative;">
+        ⭐ VERIFIED BY OVER 250 CUSTOMERS ⭐
+    </div>
+    <div style="z-index: 10; position: relative;">
+        4.7 STAR RATING OUT OF 5
+    </div>
+    <!-- Blinking/Pulse effect -->
+    <div style="position: absolute; inset: 0; border: 1px solid #f5424222; animation: pulseBorder 3s infinite alternate;"></div>
+</section>
+
+<!-- =====================
+    PRODUCT SECTIONS
+===================== -->
+<section id="fr">
+    <h2 class="glitch" data-text="FRANCE HQ 🇫🇷">FRANCE HQ 🇫🇷</h2>
+    <div id="fr-list"></div>
+</section>
+
+<section id="n26">
+    <h2 class="glitch" data-text="N26">N26</h2>
+    <div class="warranty-notice">
+        ⚠️ WARRANTY: 5 MIN REPLACE WITH ANOTHER CARD IF AT LEAST NOT ONE HIT WHEN BUYING 3+
+    </div>
+    <div id="n26-list"></div>
+</section>
+
+<section id="au">
+    <h2 class="glitch" data-text="AU">AU</h2>
+    <div class="warranty-notice">
+        ⚠️ WARRANTY: 5 MIN REPLACE WITH ANOTHER CARD IF AT LEAST NOT ONE HIT WHEN BUYING 3+
+    </div>
+    <div id="au-list"></div>
+</section>
+
+<section id="usa">
+    <h2 class="glitch" data-text="USA HQ">USA HQ</h2>
+    <div id="usa-list"></div>
+</section>
+
+<section id="low">
+    <h2 class="glitch" data-text="USA LOW QUALITY">USA LOW QUALITY</h2>
+    <!-- This section no longer contains the BULK PURCHASE VOUCHER product listing -->
+    <div id="low-list"></div>
+</section>
+
+<!-- NEW SECTIONS - Updated Titles and Deals -->
+<section id="amex">
+    <h2 class="glitch" data-text="AMEX GRAND OPEN DISCOUNT 🇺🇸">AMEX GRAND OPEN DISCOUNT 🇺🇸</h2>
+    <div id="amex-list"></div>
+</section>
+
+<section id="discover">
+    <h2 class="glitch" data-text="DISCOVER GRAND OPEN DISCOUNT 🇺🇸">DISCOVER GRAND OPEN DISCOUNT 🇺🇸</h2>
+    <div id="discover-list"></div>
+</section>
+
+<!-- NEW VOUCHER SECTION at the bottom -->
+<section id="voucher">
+    <h2 class="glitch" data-text="VOUCHER">VOUCHER</h2>
+    <div id="voucher-grid" class="voucher-grid">
+        
+        <!-- Box 1: FOOD VOUCHER $1.75 USA (Red Glow) -->
+        <div class="voucher-box red-glow-active">
+            <div class="voucher-image-container">
+                <a href='https://postimg.cc/p5LHM4Zx' target='_blank' title="Click to view full image">
+                    <img src='https://i.postimg.cc/p5LHM4Zx/Screenshot-2025-11-25-060038.png' 
+                         alt='Screenshot-2025-11-25-060038'
+                         onerror="this.onerror=null; this.src='https://placehold.co/200x150/f54242/000000?text=IMAGE+FAIL';">
+                </a>
+            </div>
+            <div class="voucher-title">FOOD VOUCHER</div> 
+            <div class="voucher-code">$1.75 USA</div> 
+        </div>
+
+        <!-- Box 2: ZA ORDER $7.50 AU (Green Glow) -->
+        <div class="voucher-box green-glow-active">
+            <div class="voucher-image-container">
+                <a href='https://postimg.cc/jDPdcV3m' target='_blank' title="Click to view full image">
+                    <img src='https://i.postimg.cc/jDPdcV3m/Screenshot-2025-11-25-060753.png' 
+                         alt='Screenshot-2025-11-25-060753'
+                         onerror="this.onerror=null; this.src='https://placehold.co/200x150/00ff00/000000?text=IMAGE+FAIL';">
+                </a>
+            </div>
+            <div class="voucher-title">ZA ORDER</div>
+            <div class="voucher-code">$7.50 AU</div>
+        </div>
+        
+        <!-- Box 3: N26 Card Low Security Designer (Gold Glow) -->
+        <div class="voucher-box gold-glow-active">
+            <div class="voucher-image-container">
+                <a href='https://postimg.cc/bS99kFcw' target='_blank' title="Click to view full image">
+                    <img src='https://i.postimg.cc/bS99kFcw/1-415-voucher-order.jpg' 
+                         alt='1-415-voucher-order'
+                         onerror="this.onerror=null; this.src='https://placehold.co/200x150/ffd700/000000?text=IMAGE+FAIL';">
+                </a>
+            </div>
+            <div class="voucher-title">N26 Card Low Security Designer</div>
+            <div class="voucher-code">N26 Card Low Security Card</div>
+        </div>
+
+    </div>
+</section>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+
+/* ==============
+    FIREBASE & FIRESTORE SETUP
+============== */
+
+setLogLevel('Debug');
+
+// Global variables provided by the Canvas environment
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+// Firebase service references
+let db;
+let auth;
+let userId = null;
+let cartDocRef = null;
+
+
+/**
+ * Initializes Firebase, authenticates the user, and sets up the Firestore listener.
+ */
+async function initFirebase() {
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        
+        // 1. Authenticate the user
+        await new Promise((resolve) => {
+            const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    userId = user.uid;
+                } else if (initialAuthToken) {
+                    // Use custom token if available
+                    await signInWithCustomToken(auth, initialAuthToken).catch(console.error);
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                } else {
+                    // Sign in anonymously if no token
+                    await signInAnonymously(auth).catch(console.error);
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                }
+                
+                // Display the user ID for collaboration/debugging
+                document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
+
+                unsubscribe();
+                resolve();
+            });
+        });
+
+        // 2. Set up Firestore Realtime Listener for the Cart
+        if (userId) {
+            // Path: /artifacts/{appId}/users/{userId}/cart/currentCart
+            cartDocRef = doc(db, 'artifacts', appId, 'users', userId, 'cart', 'currentCart');
+
+            onSnapshot(cartDocRef, (docSnapshot) => {
+                const count = docSnapshot.exists() ? docSnapshot.data().itemCount : 0;
+                updateCartUI(count);
+            }, (error) => {
+                console.error("Error listening to cart changes:", error);
+            });
+        }
+
+    } catch (error) {
+        console.error("Firebase initialization failed:", error);
+    }
+}
+
+
+/**
+ * Updates the cart counter in the UI.
+ * @param {number} count The current item count in the cart.
+ */
+function updateCartUI(count) {
+    const cartCountElement = document.getElementById('cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = count.toString();
+    }
+}
+
+
+/**
+ * Adds an item to the cart by incrementing the Firestore counter.
+ * NOTE: This function is currently unused as the "Buy" button is now a direct Telegram link.
+ */
+async function addToCart() {
+    if (!cartDocRef) {
+        console.error("Firestore not initialized or user not logged in.");
+        return;
+    }
+
+    try {
+        // Read the current count
+        const currentCountElement = document.getElementById('cart-count');
+        let currentCount = parseInt(currentCountElement.textContent) || 0;
+
+        const newCount = currentCount + 1;
+
+        // Write the new count back to Firestore
+        await setDoc(cartDocRef, { itemCount: newCount }, { merge: true });
+
+        // Note: The UI update is handled by the real-time onSnapshot listener
+        console.log("Cart updated. New count:", newCount);
+
+    } catch (error) {
+        console.error("Failed to add item to cart:", error);
+    }
+}
+
+
+/* ==============
+    PRODUCT LISTING GENERATOR
+============== */
+
+const TELEGRAM_URL = "https://t.me/CookieConventionCCs";
+
+/**
+ * Creates and appends a product entry to the specified container.
+ * @param {string} containerId ID of the HTML container element.
+ * @param {string} title Product title.
+ * @param {string} meta Product metadata/description.
+ * @param {string} price Product price string.
+ * @param {string} [buttonLabel] Optional custom button label (e.g., "BUY TO REVEAL").
+ * @param {string} [dealText] Optional text for a special deal (e.g., "3 FOR $20").
+ */
+function addProduct(containerId, title, meta, price, buttonLabel = null, dealText = null) {
+    const container = document.getElementById(containerId);
+    const el = document.createElement("div");
+    el.className = "product";
+    
+    let btnText = buttonLabel;
+    if (!btnText) {
+        btnText = `BUY — $${price}`;
+    } else if (btnText === "BUY TO REVEAL") {
+        btnText = `🔒 BUY TO REVEAL`; // Add the lock icon
+    }
+    
+    const dealHtml = dealText ? `<div class="deal-tag">${dealText}</div>` : '';
+
+
+    el.innerHTML = `
+        <div class="product-title">${title}</div>
+        <div class="meta">${meta}</div>
+        <div class="product-actions">
+            ${dealHtml}
+            <a href="${TELEGRAM_URL}" target="_blank" class="buy-btn">${btnText}</a>
+        </div>
+    `;
+    
+    // NOTE: The click event for addToCart has been removed. The button now navigates directly via its 'href' attribute.
+
+    container.appendChild(el);
+}
+
+/* --- Generate Listings (Limited to 3 per section unless otherwise specified) --- */
+
+// FRANCE (2 specific items - Meta updated)
+addProduct(
+    "fr-list",
+    "FRANCE CARD 513771",
+    "High quality · Rich accounts", 
+    "9.00"
+);
+addProduct(
+    "fr-list",
+    "FRANCE CARD 513283",
+    "High quality · Rich accounts", 
+    "9.00"
+);
+
+
+// N26 (1 item - Updated to specific text and button, now includes deal text)
+addProduct(
+    "n26-list",
+    "N26 Very Low Security CC",
+    "Crazy deal · Hot and Ready", 
+    "7.50",
+    "BUY TO REVEAL",
+    "3 FOR $20"
+);
+
+
+// AU (1 specific item, title changed to Za Order)
+addProduct(
+    "au-list",
+    "Za Order",
+    "Solid option · Fresh", 
+    "7.50",
+    null,
+    "3 FOR $20"
+);
+
+// USA HQ (3 specific items) - PRICE CHANGED TO 5.00
+addProduct(
+    "usa-list",
+    "USA HQ Card Wells Fargos",
+    "Premium verified · Smacking Heavy", 
+    "5.00"
+);
+addProduct(
+    "usa-list",
+    "Chase USA HQ Card",
+    "Premium verified · Smacking Heavy", 
+    "5.00"
+);
+addProduct(
+    "usa-list",
+    "PNC Bank USA HQ Card",
+    "Premium verified · Smacking Heavy", 
+    "5.00"
+);
+
+// USA LOW (The BULK PURCHASE VOUCHER item has been moved to the VOUCHER section)
+// No products added here anymore.
+
+
+// AMEX (1 specific item, $6.50, now includes new deal text)
+addProduct(
+    "amex-list",
+    "AMEX Credit 371563",
+    "New drop · High balance potential",
+    "6.50",
+    null,
+    "3 FOR $10"
+);
+
+
+// DISCOVER (1 specific item, $6.50, now includes new deal text)
+addProduct(
+    "discover-list",
+    "DISCOVER CARD 601195",
+    "Rare drop · good for big orders",
+    "6.50",
+    null,
+    "3 FOR $10"
+);
+
+
+/* --- Start App --- */
+window.onload = initFirebase;
+
+</script>
+
+</body>
+</html>
